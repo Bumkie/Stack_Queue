@@ -1,0 +1,40 @@
+import java.util.*;
+
+class Solution {
+    public ArrayList<Integer> solution(int[] progresses, int[] speeds) {
+        ArrayList<Integer> answer = new ArrayList<>();
+        
+        Queue<Integer> pq = new LinkedList<>(); //Progresses Queue
+        Queue<Integer> sq = new LinkedList<>(); //Speed Queue
+        
+        for(int i : progresses){
+            pq.add(100 - i); //남은 진도
+        }
+        
+        for(int i : speeds){
+            sq.add(i);
+        }
+        int a = pq.peek() / sq.peek(); //남은 진도를 끝내는데에 걸리는 시간
+        if(sq.peek() * a < pq.peek())
+            a++; //자연수로 나눠지지 않으면 +1
+        int i = 0;
+        
+        while(!pq.isEmpty()){
+            if(pq.peek() - a * sq.peek() <= 0){
+                pq.poll();
+                sq.poll();
+                i++;
+            }
+            else{
+                answer.add(i); //answer ArrayList에 추가
+                a = pq.peek() / sq.peek();
+                if(sq.peek() * a < pq.peek())
+                    a++;
+                i = 0;
+            }
+            
+        }
+        answer.add(i); //마지막 else 문에 들어가지 않은 i 값 추가
+        return answer;
+    }
+}
