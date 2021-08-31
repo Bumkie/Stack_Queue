@@ -1,0 +1,40 @@
+import java.util.*;
+
+class Solution {
+    static int Arr_Max(int[] a){ //배열에서의 최대값 return
+        int max = 0;
+        for(int i = 0; i < a.length; i++){
+            if(max < a[i])
+                max = a[i];
+        }
+        return max;
+    }
+    
+    public int solution(int[] priorities, int location) {
+        int answer = 0;
+        int n = priorities.length;
+        int max = Arr_Max(priorities);
+        Queue<Integer> que = new LinkedList<>();
+        
+        for(int i = 0; i < n; i++){
+            que.add(i);
+        }
+        while(!que.isEmpty()){
+            if(priorities[que.peek()] != max){
+                que.add(que.poll());
+            }
+            else{
+                answer++;
+                if(que.peek() == location)
+                    return answer;
+                else{
+                    priorities[que.poll()] = 0;
+                    max = Arr_Max(priorities);
+                }
+                 
+            }
+            
+        }
+        return answer;
+    }
+}
