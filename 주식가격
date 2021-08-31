@@ -1,0 +1,29 @@
+import java.util.*;
+
+class Solution {
+    public int[] solution(int[] prices) {
+        int n = prices.length;
+        int[] answer = new int[n];
+        ArrayList<Integer> ArrList = new ArrayList<>();
+        
+        Stack<Integer> st = new Stack<>(); 
+        int cnt = 0;
+        for(int i : prices)
+            st.push(i);
+        ArrList.add(st.pop()); //제일 위에 있는 값을 미리 뺴둠 항상 0 이기 때문
+        int j = 0;
+        for(int i = 1; i < n; i++){//먼저 pop 해둔거 빼고 1 부터 시작 
+            cnt = 0;
+            ArrList.add(st.peek()); //ArrList에 prices 값 반대로 삽입
+            j = i; 
+            while(st.peek() <= ArrList.get(j--)){ //뒤에서 앞으로 비교
+                cnt++; //peek 값 보다 작은 값 개수를 순서대로 카운트
+                if(j <= 0) //index 오류 제거
+                    break;
+            }
+            st.pop(); //카운트 후 pop을 통해 peek 값 초기화
+            answer[n - 1 - i] = cnt;
+        }
+        return answer;
+    }
+}
